@@ -12,6 +12,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "apps.users",
     "apps.accounts",
+    "apps.transactions",
+
 ]
 
 ROOT_URLCONF = "config.urls"
