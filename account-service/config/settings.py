@@ -1,4 +1,5 @@
 from decouple import config
+from datetime import timedelta
 
 SECRET_KEY = config("DJANGO_SECRET_KEY", default="dev-secret-change-me")
 DEBUG = config("DEBUG", default=True, cast=bool)
@@ -8,7 +9,9 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.auth",
     "rest_framework",
+    "rest_framework_simplejwt",
     "apps.users",
+    "apps.accounts",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -26,8 +29,16 @@ DATABASES = {
 }
 
 REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 AUTH_USER_MODEL = "users.User"
