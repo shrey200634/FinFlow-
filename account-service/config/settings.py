@@ -13,6 +13,8 @@ INSTALLED_APPS = [
     "apps.users",
     "apps.accounts",
     "apps.transactions",
+    "apps.documents",
+
 
 ]
 
