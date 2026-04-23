@@ -16,20 +16,61 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Account',
+            name="Account",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('deleted_at', models.DateTimeField(blank=True, null=True)),
-                ('name', models.CharField(max_length=255)),
-                ('currency', models.CharField(choices=[('USD', 'US Dollar'), ('EUR', 'Euro'), ('GBP', 'British Pound'), ('INR', 'Indian Rupee')], default='USD', max_length=3)),
-                ('balance', models.DecimalField(decimal_places=2, default=0.0, max_digits=12)),
-                ('status', models.CharField(choices=[('ACTIVE', 'Active'), ('INACTIVE', 'Inactive'), ('FROZEN', 'Frozen')], default='ACTIVE', max_length=10)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='accounts', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("deleted_at", models.DateTimeField(blank=True, null=True)),
+                ("name", models.CharField(max_length=255)),
+                (
+                    "currency",
+                    models.CharField(
+                        choices=[
+                            ("USD", "US Dollar"),
+                            ("EUR", "Euro"),
+                            ("GBP", "British Pound"),
+                            ("INR", "Indian Rupee"),
+                        ],
+                        default="USD",
+                        max_length=3,
+                    ),
+                ),
+                (
+                    "balance",
+                    models.DecimalField(decimal_places=2, default=0.0, max_digits=12),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("ACTIVE", "Active"),
+                            ("INACTIVE", "Inactive"),
+                            ("FROZEN", "Frozen"),
+                        ],
+                        default="ACTIVE",
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="accounts",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'db_table': 'accounts',
+                "db_table": "accounts",
             },
         ),
     ]

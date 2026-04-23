@@ -1,5 +1,6 @@
-from decouple import config
 from datetime import timedelta
+
+from decouple import config
 
 SECRET_KEY = config("DJANGO_SECRET_KEY", default="dev-secret-change-me")
 DEBUG = config("DEBUG", default=True, cast=bool)
@@ -10,12 +11,11 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "rest_framework",
     "rest_framework_simplejwt",
+    "drf_spectacular",
     "apps.users",
     "apps.accounts",
     "apps.transactions",
     "apps.documents",
-
-
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -38,11 +38,19 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "FinFlow API",
+    "DESCRIPTION": "Fintech microservices platform API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
 
 AUTH_USER_MODEL = "users.User"

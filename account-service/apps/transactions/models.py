@@ -1,6 +1,7 @@
 from django.db import models
-from apps.users.models import BaseModel
+
 from apps.accounts.models import Account
+from apps.users.models import BaseModel
 
 
 class Transaction(BaseModel):
@@ -16,9 +17,7 @@ class Transaction(BaseModel):
     ]
 
     account = models.ForeignKey(
-        Account,
-        on_delete=models.CASCADE,
-        related_name="transactions"
+        Account, on_delete=models.CASCADE, related_name="transactions"
     )
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     transaction_type = models.CharField(max_length=10, choices=TRANSACTION_TYPES)

@@ -1,7 +1,8 @@
 import json
 import logging
-from kafka import KafkaProducer
+
 from decouple import config
+from kafka import KafkaProducer
 
 logger = logging.getLogger(__name__)
 
@@ -26,18 +27,24 @@ def publish_event(topic: str, payload: dict):
 
 
 def publish_transaction_created(transaction):
-    publish_event("transaction.created", {
-        "transaction_id": str(transaction.id),
-        "account_id": str(transaction.account.id),
-        "amount": str(transaction.amount),
-        "transaction_type": transaction.transaction_type,
-        "status": transaction.status,
-    })
+    publish_event(
+        "transaction.created",
+        {
+            "transaction_id": str(transaction.id),
+            "account_id": str(transaction.account.id),
+            "amount": str(transaction.amount),
+            "transaction_type": transaction.transaction_type,
+            "status": transaction.status,
+        },
+    )
 
 
 def publish_transaction_updated(transaction):
-    publish_event("transaction.updated", {
-        "transaction_id": str(transaction.id),
-        "account_id": str(transaction.account.id),
-        "status": transaction.status,
-    })
+    publish_event(
+        "transaction.updated",
+        {
+            "transaction_id": str(transaction.id),
+            "account_id": str(transaction.account.id),
+            "status": transaction.status,
+        },
+    )

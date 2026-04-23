@@ -1,6 +1,7 @@
 from django.db import models
-from apps.users.models import BaseModel, User
+
 from apps.accounts.models import Account
+from apps.users.models import BaseModel, User
 
 
 class Document(BaseModel):
@@ -12,15 +13,9 @@ class Document(BaseModel):
         ("INCOME_PROOF", "Income Proof"),
     ]
 
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="documents"
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="documents")
     account = models.ForeignKey(
-        Account,
-        on_delete=models.CASCADE,
-        related_name="documents"
+        Account, on_delete=models.CASCADE, related_name="documents"
     )
     doc_type = models.CharField(max_length=20, choices=DOC_TYPES)
     filename = models.CharField(max_length=255)

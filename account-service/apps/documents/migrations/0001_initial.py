@@ -12,29 +12,61 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('accounts', '0002_alter_account_options'),
+        ("accounts", "0002_alter_account_options"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Document',
+            name="Document",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('deleted_at', models.DateTimeField(blank=True, null=True)),
-                ('doc_type', models.CharField(choices=[('ID_PROOF', 'ID Proof'), ('ADDRESS_PROOF', 'Address Proof'), ('INCOME_PROOF', 'Income Proof')], max_length=20)),
-                ('filename', models.CharField(max_length=255)),
-                ('bucket', models.CharField(default='finflow-docs', max_length=255)),
-                ('object_key', models.CharField(max_length=500)),
-                ('content_type', models.CharField(max_length=100)),
-                ('file_size', models.PositiveIntegerField()),
-                ('account', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='documents', to='accounts.account')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='documents', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("deleted_at", models.DateTimeField(blank=True, null=True)),
+                (
+                    "doc_type",
+                    models.CharField(
+                        choices=[
+                            ("ID_PROOF", "ID Proof"),
+                            ("ADDRESS_PROOF", "Address Proof"),
+                            ("INCOME_PROOF", "Income Proof"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                ("filename", models.CharField(max_length=255)),
+                ("bucket", models.CharField(default="finflow-docs", max_length=255)),
+                ("object_key", models.CharField(max_length=500)),
+                ("content_type", models.CharField(max_length=100)),
+                ("file_size", models.PositiveIntegerField()),
+                (
+                    "account",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="documents",
+                        to="accounts.account",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="documents",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'db_table': 'documents',
-                'ordering': ['-created_at'],
+                "db_table": "documents",
+                "ordering": ["-created_at"],
             },
         ),
     ]

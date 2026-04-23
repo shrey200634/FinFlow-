@@ -12,7 +12,7 @@ def user_payload():
     return {
         "email": "test@example.com",
         "full_name": "Test User",
-        "password": "secure123"
+        "password": "secure123",
     }
 
 
@@ -37,7 +37,9 @@ def test_get_user(client, user_payload):
 def test_update_user(client, user_payload):
     create = client.post("/api/users/", user_payload, format="json")
     uid = create.data["id"]
-    res = client.patch(f"/api/users/{uid}/", {"full_name": "Updated User"}, format="json")
+    res = client.patch(
+        f"/api/users/{uid}/", {"full_name": "Updated User"}, format="json"
+    )
     assert res.status_code == 200
     assert res.data["full_name"] == "Updated User"
 

@@ -1,8 +1,10 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 from rest_framework.test import APIClient
-from apps.users.models import User
+
 from apps.accounts.models import Account
+from apps.users.models import User
 
 
 @pytest.fixture
@@ -13,18 +15,17 @@ def client():
 @pytest.fixture
 def user(db):
     return User.objects.create_user(
-        email="test@example.com",
-        full_name="Test User",
-        password="secure123"
+        email="test@example.com", full_name="Test User", password="secure123"
     )
 
 
 @pytest.fixture
 def auth_client(client, user):
-    res = client.post("/api/token/", {
-        "email": "test@example.com",
-        "password": "secure123"
-    }, format="json")
+    res = client.post(
+        "/api/token/",
+        {"email": "test@example.com", "password": "secure123"},
+        format="json",
+    )
     token = res.data["access"]
     client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
     return client
@@ -33,10 +34,7 @@ def auth_client(client, user):
 @pytest.fixture
 def account(user):
     return Account.objects.create(
-        user=user,
-        name="My Wallet",
-        currency="USD",
-        status="ACTIVE"
+        user=user, name="My Wallet", currency="USD", status="ACTIVE"
     )
 
 
@@ -46,7 +44,7 @@ def transaction_payload(account):
         "account": str(account.id),
         "amount": "100.00",
         "transaction_type": "CREDIT",
-        "description": "Test payment"
+        "description": "Test payment",
     }
 
 

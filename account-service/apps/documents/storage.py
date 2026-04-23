@@ -1,8 +1,8 @@
 import logging
+
+from decouple import config
 from minio import Minio
 from minio.error import S3Error
-from decouple import config
-from django.http import StreamingHttpResponse
 
 logger = logging.getLogger(__name__)
 

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import Document
 
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
@@ -38,7 +39,5 @@ class DocumentUploadSerializer(serializers.Serializer):
                 "Invalid file type. Allowed: JPEG, PNG, PDF"
             )
         if file.size > MAX_FILE_SIZE:
-            raise serializers.ValidationError(
-                "File too large. Maximum size is 5MB"
-            )
+            raise serializers.ValidationError("File too large. Maximum size is 5MB")
         return file
