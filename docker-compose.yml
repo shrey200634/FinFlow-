@@ -34,7 +34,7 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     ports:
       - "9092:9092"
@@ -80,6 +80,20 @@ services:
       MINIO_ENDPOINT: minio:9000
     ports:
       - "8000:8000"
+
+  processing-service:
+    build: ./processing-service
+    container_name: finflow-processing-service
+    depends_on:
+      kafka:
+        condition: service_healthy
+    env_file:
+      - ./processing-service/.env
+    environment:
+      KAFKA_BROKER: kafka:9092
+      ACCOUNT_SERVICE_URL: http://account-service:8000
+    ports:
+      - "8001:8001"
 
 volumes:
   postgres_data:
