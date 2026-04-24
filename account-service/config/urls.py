@@ -6,6 +6,8 @@ from drf_spectacular.views import (
 )
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from apps.transactions.internal_views import InternalTransactionUpdateView
+
 urlpatterns = [
     # Auth
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -23,4 +25,8 @@ urlpatterns = [
         name="swagger-ui",
     ),
     path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
+    # Internal
+    path(
+        "api/internal/transactions/<uuid:pk>/", InternalTransactionUpdateView.as_view()
+    ),
 ]

@@ -93,3 +93,60 @@ def test_invalid_amount(mock_publish, auth_client, account):
 def test_unauthenticated_access(client):
     res = client.get("/api/transactions/")
     assert res.status_code == 401
+
+
+@pytest.mark.django_db
+@patch("apps.transactions.views.publish_transaction_created")
+def test_internal_update_valid_hmac(mock_publish, auth_client, account):
+    import hashlib
+    import hmac as hmac_lib
+    import time
+    import uuid
+
+    from decouple import config
+
+    secret = config("HMAC_SECRET", default="dev-hmac-secret-change-me")
+
+    tx = auth_client.post(
+        "/api/transactions/",
+        {"account": str(account.id), "amount": "100.00", "transaction_type": "CREDIT"},
+        format="json",
+    )
+    tx_id = tx.data["id"]
+
+    # make unauthenticated client for internal call
+    from rest_framework.test import APIClient
+
+    internal_client = APIClient()
+
+    body = '{"status": "COMPLETED"}'
+    timestamp = str(int(time.time()))
+    nonce = str(uuid.uuid4())
+    message = f"{timestamp}:{nonce}:{body}"
+    signature = hmac_lib.new(
+        secret.encode(), message.encode(), hashlib.sha256
+    ).hexdigest()
+
+    res = internal_client.patch(
+        f"/api/internal/transactions/{tx_id}/",
+        data=body,
+        content_type="application/json",
+        HTTP_X_TIMESTAMP=timestamp,
+        HTTP_X_NONCE=nonce,
+        HTTP_X_SIGNATURE=signature,
+    )
+    assert res.status_code == 200
+    assert res.data["status"] == "COMPLETED"
+
+
+@pytest.mark.django_db
+def test_internal_update_missing_hmac(client):
+    import uuid
+
+    fake_id = str(uuid.uuid4())
+    res = client.patch(
+        f"/api/internal/transactions/{fake_id}/",
+        data='{"status": "COMPLETED"}',
+        content_type="application/json",
+    )
+    assert res.status_code == 401
