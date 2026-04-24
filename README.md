@@ -215,43 +215,42 @@ Headers required: X-Timestamp, X-Nonce, X-Signature
 
 ## Project Structure
 
-finflow/
-├── docker-compose.yml
-├── .env.example
-├── .gitignore
-├── .pre-commit-config.yaml
-├── README.md
-├── docs/
-│   ├── ARCHITECTURE.md
-│   └── API_CONTRACTS.md
-├── account-service/
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   ├── manage.py
-│   ├── pytest.ini
-│   ├── setup.cfg
-│   ├── mypy.ini
-│   ├── config/
-│   │   ├── settings.py
-│   │   ├── urls.py
-│   │   └── wsgi.py
-│   └── apps/
-│       ├── users/
-│       ├── accounts/
-│       ├── transactions/
-│       └── documents/
-└── processing-service/
-    ├── Dockerfile
-    ├── requirements.txt
-    ├── pytest.ini
-    └── app/
-        ├── main.py
-        ├── config.py
-        ├── consumer.py
-        ├── hmac_auth.py
-        ├── airflow_stub.py
-        └── tests/
-
+    finflow/
+    ├── docker-compose.yml
+    ├── .env.example
+    ├── .gitignore
+    ├── .pre-commit-config.yaml
+    ├── README.md
+    ├── docs/
+    │   ├── ARCHITECTURE.md
+    │   └── API_CONTRACTS.md
+    ├── account-service/
+    │   ├── Dockerfile
+    │   ├── requirements.txt
+    │   ├── manage.py
+    │   ├── pytest.ini
+    │   ├── setup.cfg
+    │   ├── mypy.ini
+    │   ├── config/
+    │   │   ├── settings.py
+    │   │   ├── urls.py
+    │   │   └── wsgi.py
+    │   └── apps/
+    │       ├── users/
+    │       ├── accounts/
+    │       ├── transactions/
+    │       └── documents/
+    └── processing-service/
+        ├── Dockerfile
+        ├── requirements.txt
+        ├── pytest.ini
+        └── app/
+            ├── main.py
+            ├── config.py
+            ├── consumer.py
+            ├── hmac_auth.py
+            ├── airflow_stub.py
+            └── tests/
 ---
 
 ## Troubleshooting
